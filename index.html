@@ -1,17 +1,84 @@
-<!DOCTYPE html>
-<html lang=“en-us”>
+<!-- THIS VERSION INCLUDES SCRIPT INLINE -->
+<!DOCTYPE html>
+<html lang="en-us">
 	<head>
-	<meta charset=“UFT-8”>
-	<title>Page Title</title>
-	<!-- links to google fonts -->
-	<link href="https://fonts.googleapis.com/css?family=Luckiest+Guy" rel="stylesheet">
-</head>
+		<meta charset="UTF-8">
+		<title>The Psychic Game!</title>
+		<!-- this will link to google fonts -->
+		<!-- this will link to the external js -->
+		<!-- this will link to external css -->
+	</head>
 
+	<body>
 
-<body>
+	<!-- this is where a container will go with rows, columns, borders and graphic styling-->
 
-	<h1>this is a header</h1>
+	<h2>Play the psychic game</h2>
+	<p><em>You have 9 chances to guess the correct key...</em></p>	    
 
-</body>
+	<div id="game">
+	<p>Pick a key, any key...</p>
+	</div>
+
+	<script type="text/javascript">
+		
+		// this variable defines the computer's 10 letter choices
+		var letters = ["a", "c", "f", "h", "k", "m", "o", "r", "x", "z"];
+		// this variable sets the computerChoice at null
+		var computerChoice = null;
+		// this variable sets a starting value for the user's total number of correct guesses
+		var wins = 0;
+		// this variable sets a starting value for the user's total number of losses after making 9 incorrrect guesses
+		var losses = 0;
+		// this variable sets a starting value for the user's guesses so far
+		var guessesSoFar = [];
+		// this variable sets a starting value for the user's guesses remaining
+		var guessesLeft = 9;
+		// this defines the computer's random pick based on the letters array
+		var index = letters[Math.floor(Math.random() * letters.length)];
+		var computerChoice = letters[index];
+		console.log(index);
+		// This function is run whenever the user presses a key to start or continue a game.
+		document.onkeyup = function(event) {
+		// This variable determines which key was pressed.
+		var userGuess = event.key;
+		//if user gets it right
+		if (userGuess === index) {
+		console.log("wins");
+		wins++;
+		guessesSoFar = [];
+		guessesLeft = 9;
+		index = letters[Math.floor(Math.random() * letters.length)];
+		//if user gets it wrong
+		} else if (userGuess !== index) {
+		console.log("losses");
+		guessesLeft--;
+		// if user is out of guesses
+		if (guessesLeft == 0) {
+		console.log("You lose")
+		losses++;
+		guessesSoFar = [];
+		guessesLeft = 9;
+		index = letters[Math.floor(Math.random() * letters.length)];
+		}
+		}
+		// computer takes the user's response and "pushes" (or adds) the variable to the end of the guessesSoFar array.
+		guessesSoFar.push(userGuess);
+		console.log(guessesSoFar);
+		
+		// This variable holds our new HTML. Our HTML now keeps track of the user and computer guesses, and wins/losses.
+		var html =
+		"<p>Guesses left: " + guessesLeft + "</p>" +
+		"<p>Guesses so far: " + guessesSoFar + "</p>" +
+		"<p>Wins: " + wins + "</p>" +
+		"<p>Losses: " + losses + "</p>";
+
+		// This sets the inner HTML contents of the #game div to our html string
+		document.querySelector("#game").innerHTML = html;
+		};
+
+	</script>
+
+	</body>
 
 </html>
